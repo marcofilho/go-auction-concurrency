@@ -22,6 +22,6 @@ const (
 )
 
 const (
-	Action AuctionStatus = iota
+	Active AuctionStatus = iota
 	Completed
 )
