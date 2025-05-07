@@ -1,6 +1,11 @@
 package auction_entity
 
-import "time"
+import (
+	"context"
+	"time"
+
+	"github.com/marcofilho/go-auction-concurrency/internal/internal_error"
+)
 
 type Auction struct {
 	ID               string
@@ -25,3 +30,9 @@ const (
 	Active AuctionStatus = iota
 	Completed
 )
+
+type AuctionRepositoryInterface interface {
+	CreateAuction(ctx context.Context, auctionEntity *Auction) *internal_error.InternalError
+	FindAuctionById(ctx context.Context, id string) (*Auction, *internal_error.InternalError)
+	FindAuctions(ctx context.Context, status AuctionStatus, category, productName string) ([]Auction, *internal_error.InternalError)
+}

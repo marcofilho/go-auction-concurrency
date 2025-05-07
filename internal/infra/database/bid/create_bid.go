@@ -9,6 +9,7 @@ import (
 	"github.com/marcofilho/go-auction-concurrency/internal/entity/bid_entity"
 	"github.com/marcofilho/go-auction-concurrency/internal/infra/database/auction"
 	"github.com/marcofilho/go-auction-concurrency/internal/internal_error"
+
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -23,6 +24,13 @@ type BidEntityMongo struct {
 type BidRepository struct {
 	Collection        *mongo.Collection
 	AuctionRepository *auction.AuctionRepository
+}
+
+func NewBidRepository(db *mongo.Database) *BidRepository {
+	return &BidRepository{
+		Collection:        db.Collection("bids"),
+		AuctionRepository: auction.NewAuctionRepository(db),
+	}
 }
 
 func (b *BidRepository) CreateBid(ctx context.Context, bidEntities []bid_entity.Bid) *internal_error.InternalError {
@@ -56,7 +64,7 @@ func (b *BidRepository) CreateBid(ctx context.Context, bidEntities []bid_entity.
 
 			_, err = b.Collection.InsertOne(ctx, bidEntityMongo)
 			if err != nil {
-				logger.Error("Error inserting bid", err)
+				logger.Error("Error creating auction", err)
 				errCh <- err
 				return
 			}

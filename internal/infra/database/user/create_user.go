@@ -6,6 +6,7 @@ import (
 	"github.com/marcofilho/go-auction-concurrency/configuration/logger"
 	"github.com/marcofilho/go-auction-concurrency/internal/entity/user_entity"
 	"github.com/marcofilho/go-auction-concurrency/internal/internal_error"
+
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -24,17 +25,17 @@ func NewUserRepository(db *mongo.Database) *UserRepository {
 	}
 }
 
-func (r *UserRepository) CreateUser(ctx context.Context, user *user_entity.User) (*user_entity.User, *internal_error.InternalError) {
-	userEntity := UserEntityMongo{
-		ID:   user.ID,
-		Name: user.Name,
+func (r *UserRepository) CreateUser(ctx context.Context, userEntity *user_entity.User) *internal_error.InternalError {
+	userEntityMongo := UserEntityMongo{
+		ID:   userEntity.ID,
+		Name: userEntity.Name,
 	}
 
-	_, err := r.Collection.InsertOne(ctx, userEntity)
+	_, err := r.Collection.InsertOne(ctx, userEntityMongo)
 	if err != nil {
 		logger.Error("Error creating user", err)
-		return nil, internal_error.NewInternalServerError("Error creating user")
+		return internal_error.NewInternalServerError("Error creating user")
 	}
 
-	return user, nil
+	return nil
 }
