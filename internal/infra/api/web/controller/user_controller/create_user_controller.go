@@ -10,10 +10,10 @@ import (
 )
 
 type UserController struct {
-	userUseCase user_usecase.UserUseCase
+	userUseCase user_usecase.UserUseCaseInterface
 }
 
-func NewUserController(userUseCase user_usecase.UserUseCase) *UserController {
+func NewUserController(userUseCase user_usecase.UserUseCaseInterface) *UserController {
 	return &UserController{
 		userUseCase: userUseCase,
 	}

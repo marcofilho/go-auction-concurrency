@@ -18,7 +18,7 @@ type UserOutputDTO struct {
 
 type UserUseCaseInterface interface {
 	FindUserById(ctx context.Context, id string) (*UserOutputDTO, *internal_error.InternalError)
-	CreateUser(ctx context.Context, name string) (*UserOutputDTO, *internal_error.InternalError)
+	CreateUser(ctx context.Context, name string) *internal_error.InternalError
 }
 
 func (u *UserUseCase) FindUserById(ctx context.Context, id string) (*UserOutputDTO, *internal_error.InternalError) {

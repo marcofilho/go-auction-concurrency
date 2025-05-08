@@ -10,10 +10,10 @@ import (
 )
 
 type BidController struct {
-	bidUseCase bid_usecase.BidUseCase
+	bidUseCase bid_usecase.BidUseCaseInterface
 }
 
-func NewBidController(bidUseCase bid_usecase.BidUseCase) *BidController {
+func NewBidController(bidUseCase bid_usecase.BidUseCaseInterface) *BidController {
 	return &BidController{
 		bidUseCase: bidUseCase,
 	}
