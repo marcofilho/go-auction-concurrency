@@ -9,7 +9,6 @@ import (
 	"github.com/marcofilho/go-auction-concurrency/internal/entity/bid_entity"
 	"github.com/marcofilho/go-auction-concurrency/internal/infra/database/auction"
 	"github.com/marcofilho/go-auction-concurrency/internal/internal_error"
-
 	"go.mongodb.org/mongo-driver/mongo"
 )
 

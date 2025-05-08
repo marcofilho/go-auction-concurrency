@@ -36,7 +36,7 @@ func (r *AuctionRepository) CreateAuction(ctx context.Context, auctionEntity *au
 		ProductName: auctionEntity.ProductName,
 		Category:    auctionEntity.Category,
 		Description: auctionEntity.Description,
-		Condition:   auctionEntity.ProductCondition,
+		Condition:   auctionEntity.Condition,
 		Status:      auctionEntity.Status,
 		Timestamp:   auctionEntity.Timestamp.Unix(),
 	}

@@ -8,7 +8,7 @@ import (
 )
 
 type UserUseCase struct {
-	UserRepository user_entity.UserRepositoryInterface
+	UserRepositoryInterface user_entity.UserRepositoryInterface
 }
 
 type UserOutputDTO struct {
@@ -21,7 +21,7 @@ type UserUseCaseInterface interface {
 }
 
 func (u *UserUseCase) FindUserById(ctx context.Context, id string) (*UserOutputDTO, *internal_error.InternalError) {
-	userEntity, err := u.UserRepository.FindUserById(ctx, id)
+	userEntity, err := u.UserRepositoryInterface.FindUserById(ctx, id)
 	if err != nil {
 		return nil, err
 	}

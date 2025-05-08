@@ -31,13 +31,13 @@ func (a *AuctionRepository) FindAuctionById(ctx context.Context, id string) (*au
 	}
 
 	return &auction_entity.Auction{
-		ID:               auctionEntityMongo.ID,
-		ProductName:      auctionEntityMongo.ProductName,
-		Category:         auctionEntityMongo.Category,
-		Description:      auctionEntityMongo.Description,
-		ProductCondition: auctionEntityMongo.Condition,
-		Status:           auctionEntityMongo.Status,
-		Timestamp:        time.Unix(auctionEntityMongo.Timestamp, 0),
+		ID:          auctionEntityMongo.ID,
+		ProductName: auctionEntityMongo.ProductName,
+		Category:    auctionEntityMongo.Category,
+		Description: auctionEntityMongo.Description,
+		Condition:   auctionEntityMongo.Condition,
+		Status:      auctionEntityMongo.Status,
+		Timestamp:   time.Unix(auctionEntityMongo.Timestamp, 0),
 	}, nil
 
 }
@@ -76,13 +76,13 @@ func (a *AuctionRepository) FindAuctions(ctx context.Context, status auction_ent
 	var auctionEntity []auction_entity.Auction
 	for _, auctionMongo := range auctionEntityMongo {
 		auctionEntity = append(auctionEntity, auction_entity.Auction{
-			ID:               auctionMongo.ID,
-			ProductName:      auctionMongo.ProductName,
-			Category:         auctionMongo.Category,
-			Description:      auctionMongo.Description,
-			ProductCondition: auctionMongo.Condition,
-			Status:           auctionMongo.Status,
-			Timestamp:        time.Unix(auctionMongo.Timestamp, 0),
+			ID:          auctionMongo.ID,
+			ProductName: auctionMongo.ProductName,
+			Category:    auctionMongo.Category,
+			Description: auctionMongo.Description,
+			Condition:   auctionMongo.Condition,
+			Status:      auctionMongo.Status,
+			Timestamp:   time.Unix(auctionMongo.Timestamp, 0),
 		})
 	}
 
