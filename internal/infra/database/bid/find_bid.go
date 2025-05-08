@@ -51,7 +51,7 @@ func (b *BidRepository) FindBidByAuctionId(ctx context.Context, auctionId string
 
 func (b *BidRepository) FindWinningBidByAuctionId(ctx context.Context, auctionId string) (*bid_entity.Bid, *internal_error.InternalError) {
 	filter := bson.M{"auction_id": auctionId}
-	options := options.FindOne().SetSort(bson.D{{"amount", -1}})
+	options := options.FindOne().SetSort(bson.D{{Key: "amount", Value: -1}})
 
 	var bidEntityMongo BidEntityMongo
 	if err := b.Collection.FindOne(ctx, filter, options).Decode(&bidEntityMongo); err != nil {

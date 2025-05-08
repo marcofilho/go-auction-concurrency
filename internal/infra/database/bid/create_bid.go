@@ -59,9 +59,8 @@ func (b *BidRepository) CreateBid(ctx context.Context, bidEntities []bid_entity.
 				Timestamp: bidValue.Timestamp.Unix(),
 			}
 
-			_, err = b.Collection.InsertOne(ctx, bidEntityMongo)
-			if err != nil {
-				logger.Error("Error creating auction", err)
+			if _, err := b.Collection.InsertOne(ctx, bidEntityMongo); err != nil {
+				logger.Error("Error trying to insert bid", err)
 				return
 			}
 
