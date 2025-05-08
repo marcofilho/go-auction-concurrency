@@ -34,7 +34,6 @@ func NewBidRepository(db *mongo.Database) *BidRepository {
 
 func (b *BidRepository) CreateBid(ctx context.Context, bidEntities []bid_entity.Bid) *internal_error.InternalError {
 	var wg sync.WaitGroup
-	errCh := make(chan error, len(bidEntities))
 
 	for _, bid := range bidEntities {
 		wg.Add(1)
@@ -45,7 +44,6 @@ func (b *BidRepository) CreateBid(ctx context.Context, bidEntities []bid_entity.
 			auctionEntity, err := b.AuctionRepository.FindAuctionById(ctx, bidValue.AuctionID)
 			if err != nil {
 				logger.Error("Error getting auction by ID: %v", err)
-				errCh <- err
 				return
 			}
 
@@ -64,7 +62,6 @@ func (b *BidRepository) CreateBid(ctx context.Context, bidEntities []bid_entity.
 			_, err = b.Collection.InsertOne(ctx, bidEntityMongo)
 			if err != nil {
 				logger.Error("Error creating auction", err)
-				errCh <- err
 				return
 			}
 
@@ -72,13 +69,6 @@ func (b *BidRepository) CreateBid(ctx context.Context, bidEntities []bid_entity.
 	}
 
 	wg.Wait()
-	close(errCh)
-
-	for err := range errCh {
-		if err != nil {
-			return internal_error.NewInternalServerError("Error creating bid")
-		}
-	}
 
 	return nil
 }

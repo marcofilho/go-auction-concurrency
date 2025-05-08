@@ -16,10 +16,10 @@ type AuctionUseCase struct {
 }
 
 type AuctionInputDTO struct {
-	ProductName string           `json:"product_name"`
-	Category    string           `json:"category"`
-	Description string           `json:"description"`
-	Condition   ProductCondition `json:"product_condition"`
+	ProductName string           `json:"product_name" binding:"required, min=1"`
+	Category    string           `json:"category" binding:"required, min=2"`
+	Description string           `json:"description" binding:"required, min=10, max=200"`
+	Condition   ProductCondition `json:"condition"`
 }
 
 type AuctionOutputDTO struct {
@@ -27,7 +27,7 @@ type AuctionOutputDTO struct {
 	ProductName string           `json:"product_name"`
 	Category    string           `json:"category"`
 	Description string           `json:"description"`
-	Condition   ProductCondition `json:"product_condition"`
+	Condition   ProductCondition `json:"condition"`
 	Status      AuctionStatus    `json:"status"`
 	Timestamp   time.Time        `json:"timestamp" time_format:"2006-01-02 15:04:05Z07:00"`
 }
@@ -46,7 +46,7 @@ type AuctionUseCaseInterface interface {
 	FindAuctions(ctx context.Context, status auction_entity.AuctionStatus, category, productName string) ([]AuctionOutputDTO, *internal_error.InternalError)
 }
 
-func (a *AuctionUseCase) CreateAuction(ctx context.Context, auctionInputDTO *AuctionInputDTO) *internal_error.InternalError {
+func (a *AuctionUseCase) CreateAuction(ctx context.Context, auctionInputDTO AuctionInputDTO) *internal_error.InternalError {
 	auction, err := auction_entity.CreateAuction(
 		auctionInputDTO.ProductName,
 		auctionInputDTO.Category,
