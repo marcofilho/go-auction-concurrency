@@ -25,10 +25,10 @@ type BidRepository struct {
 	AuctionRepository *auction.AuctionRepository
 }
 
-func NewBidRepository(db *mongo.Database) *BidRepository {
+func NewBidRepository(db *mongo.Database, auctionRepository *auction.AuctionRepository) *BidRepository {
 	return &BidRepository{
 		Collection:        db.Collection("bids"),
-		AuctionRepository: auction.NewAuctionRepository(db),
+		AuctionRepository: auctionRepository,
 	}
 }
 

@@ -25,18 +25,3 @@ func (b *BidUseCase) FindBidByAuctionId(ctx context.Context, auctionId string) (
 
 	return bidiesOutputDTO, nil
 }
-
-func (b *BidUseCase) FindWinningBidByAuctionId(ctx context.Context, auctionId string) (*BidOutputDTO, *internal_error.InternalError) {
-	bidEntity, err := b.BidRepositoryInterface.FindWinningBidByAuctionId(ctx, auctionId)
-	if err != nil {
-		return nil, err
-	}
-
-	return &BidOutputDTO{
-		ID:        bidEntity.ID,
-		AuctionID: bidEntity.AuctionID,
-		UserID:    bidEntity.UserID,
-		Amount:    bidEntity.Amount,
-		Timestamp: bidEntity.Timestamp,
-	}, nil
-}

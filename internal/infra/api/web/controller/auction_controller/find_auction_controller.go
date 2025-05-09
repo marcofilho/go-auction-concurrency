@@ -25,7 +25,7 @@ func (a *AuctionController) FindAuctionById(c *gin.Context) {
 		return
 	}
 
-	auction, err := a.auctionUseCase.FindAuctionById(context.Background(), auctionId)
+	auction, err := a.auctionUseCaseInterface.FindAuctionById(context.Background(), auctionId)
 	if err != nil {
 		restErr := validation.ValidateErr(err)
 
@@ -49,7 +49,7 @@ func (a *AuctionController) FindAuctions(c *gin.Context) {
 		return
 	}
 
-	auctions, err := a.auctionUseCase.FindAuctions(context.Background(), auction_usecase.AuctionStatus(statusNumber), category, productName)
+	auctions, err := a.auctionUseCaseInterface.FindAuctions(context.Background(), auction_usecase.AuctionStatus(statusNumber), category, productName)
 	if err != nil {
 		restErr := validation.ValidateErr(err)
 
@@ -74,7 +74,7 @@ func (a *AuctionController) FindWinningBidByAuctionId(c *gin.Context) {
 		return
 	}
 
-	auction, err := a.auctionUseCase.FindWinningBidByAuctionId(context.Background(), auctionId)
+	auction, err := a.auctionUseCaseInterface.FindWinningBidByAuctionId(context.Background(), auctionId)
 	if err != nil {
 		restErr := validation.ValidateErr(err)
 

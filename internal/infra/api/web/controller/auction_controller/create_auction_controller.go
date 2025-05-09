@@ -10,12 +10,12 @@ import (
 )
 
 type AuctionController struct {
-	auctionUseCase auction_usecase.AuctionUseCase
+	auctionUseCaseInterface auction_usecase.AuctionUseCaseInterface
 }
 
-func NewUserController(auctionUseCase auction_usecase.AuctionUseCase) *AuctionController {
+func NewAuctionController(auctionUseCaseInterface auction_usecase.AuctionUseCaseInterface) *AuctionController {
 	return &AuctionController{
-		auctionUseCase: auctionUseCase,
+		auctionUseCaseInterface: auctionUseCaseInterface,
 	}
 }
 
@@ -29,7 +29,7 @@ func (a *AuctionController) CreateAuction(c *gin.Context) {
 		return
 	}
 
-	err := a.auctionUseCase.CreateAuction(context.Background(), auctionInputDTO)
+	err := a.auctionUseCaseInterface.CreateAuction(context.Background(), auctionInputDTO)
 	if err != nil {
 		restErr := validation.ValidateErr(err)
 

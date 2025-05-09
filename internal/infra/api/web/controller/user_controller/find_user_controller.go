@@ -9,8 +9,8 @@ import (
 	"github.com/marcofilho/go-auction-concurrency/configuration/rest_err"
 )
 
-func (u *UserController) FindUserByID(c *gin.Context) {
-	userID := c.Param("id")
+func (u *UserController) FindUserById(c *gin.Context) {
+	userID := c.Param("userId")
 
 	if err := uuid.Validate(userID); err != nil {
 		errRest := rest_err.NewBadRequestError("Invalid fields", rest_err.Cause{

@@ -10,16 +10,11 @@ import (
 	"github.com/marcofilho/go-auction-concurrency/internal/usecase/bid_usecase"
 )
 
-type AuctionUseCase struct {
-	AuctionRepositoryInterface auction_entity.AuctionRepositoryInterface
-	BidRepositoryInterface     bid_entity.BidRepositoryInterface
-}
-
 type AuctionInputDTO struct {
 	ProductName string           `json:"product_name" binding:"required, min=1"`
 	Category    string           `json:"category" binding:"required, min=2"`
 	Description string           `json:"description" binding:"required, min=10, max=200"`
-	Condition   ProductCondition `json:"condition"`
+	Condition   ProductCondition `json:"condition" binding:"oneof=0 1 2"`
 }
 
 type AuctionOutputDTO struct {
@@ -37,13 +32,27 @@ type WinningInfoOutputDTO struct {
 	Bid     *bid_usecase.BidOutputDTO `json:"bid, omitempty"`
 }
 
+func NewAuctionUseCase(auctionRepository auction_entity.AuctionRepositoryInterface,
+	bidRepository bid_entity.BidRepositoryInterface) AuctionUseCaseInterface {
+	return &AuctionUseCase{
+		AuctionRepositoryInterface: auctionRepository,
+		BidRepositoryInterface:     bidRepository,
+	}
+}
+
+type AuctionUseCaseInterface interface {
+	CreateAuction(ctx context.Context, auctionInput AuctionInputDTO) *internal_error.InternalError
+	FindAuctionById(ctx context.Context, id string) (*AuctionOutputDTO, *internal_error.InternalError)
+	FindAuctions(ctx context.Context, status AuctionStatus, category, productName string) ([]AuctionOutputDTO, *internal_error.InternalError)
+	FindWinningBidByAuctionId(ctx context.Context, auctionId string) (*WinningInfoOutputDTO, *internal_error.InternalError)
+}
+
 type ProductCondition int64
 type AuctionStatus int64
 
-type AuctionUseCaseInterface interface {
-	CreateAuction(ctx context.Context, auctionEntity *AuctionOutputDTO) *internal_error.InternalError
-	FindAuctionById(ctx context.Context, id string) (*AuctionOutputDTO, *internal_error.InternalError)
-	FindAuctions(ctx context.Context, status auction_entity.AuctionStatus, category, productName string) ([]AuctionOutputDTO, *internal_error.InternalError)
+type AuctionUseCase struct {
+	AuctionRepositoryInterface auction_entity.AuctionRepositoryInterface
+	BidRepositoryInterface     bid_entity.BidRepositoryInterface
 }
 
 func (a *AuctionUseCase) CreateAuction(ctx context.Context, auctionInputDTO AuctionInputDTO) *internal_error.InternalError {
